@@ -13,46 +13,26 @@ class CheckpointsPointsClass {
     }
 }
 
-var track0Checkpoints = [[[427, 308],
-[277, 74]],
-[[426, 307],
-[279, 77]],
-[[606, 239],
-[445, 18]],
-[[723, 175],
-[805, 5]],
-[[808, 204],
-[1035, 43]],
-[[830, 213],
-[1092, 151]],
-[[797, 219],
-[1008, 263]],
-[[697, 317],
-[911, 315]],
-[[776, 418],
-[992, 382]],
-[[798, 481],
-[1086, 482]],
-[[788, 508],
-[1128, 583]],
-[[782, 525],
-[928, 673]],
-[[711, 530],
-[718, 670]],
-[[598, 538],
-[554, 681]],
-[[481, 543],
-[287, 679]],
-[[364, 526],
-[159, 608]],
-[[314, 485],
-[63, 498]],
-[[303, 450],
-[28, 365]],
-[[311, 387],
-[123, 258]],
-[[355, 355],
-[211, 150]]
+var track0Checkpoints = [[[427, 308],[277, 74]],
+[[426, 307],[279, 77]],
+[[606, 239],[445, 18]],
+[[723, 175],[805, 5]],
+[[808, 204],[1035, 43]],
+[[830, 213],[1092, 151]],
+[[797, 219],[1008, 263]],
+[[697, 317],[911, 315]],
+[[776, 418],[992, 382]],
+[[798, 481],[1086, 482]],
+[[788, 508],[1128, 583]],
+[[782, 525],[928, 673]],
+[[711, 530],[718, 670]],
+[[598, 538],[554, 681]],
+[[481, 543],[287, 679]],
+[[364, 526],[159, 608]],
+[[314, 485],[63, 498]],
+[[303, 450],[28, 365]],
+[[311, 387],[123, 258]],
+[[355, 355],[211, 150]]
 ];
 
 function initCheckpoints() {
@@ -104,7 +84,6 @@ function checkIfInsideCheckpoints() {
                 lapCount();
             }
             players[0].currentCheckpoint=i;
-            //console.log(i);
             if (tracks[0].checkpoints[i].key==true && players[0].countedThisKeyCheckpoint==false) {
                 players[0].countedThisKeyCheckpoint = true;
                 players[0].traversedKeyCheckpoints.push(i);
@@ -128,6 +107,7 @@ function lapCount() {
             mainGameProperties.currentBestLapTime = mainGameProperties.currentLapTime;
         mainGameProperties.currentLapTime = 0;
         mainGameProperties.currentLap++;
+        mainGameProperties.newLapTextFrame=1;
     }
 }
 

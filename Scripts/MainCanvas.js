@@ -79,5 +79,5 @@ function drawImages(image, angleInRad, positionX, positionY, offset) {
 
 window.onload = function() {
     initializeCanvas();
-    loadImages(['Tracks/track1.png', '399.png', 'Collisions/track1.png'], loadImgsToArray);
+    loadImages(['Tracks/track1.png', 'Characters/399.png', 'Collisions/track1.png'], loadImgsToArray);
 }
