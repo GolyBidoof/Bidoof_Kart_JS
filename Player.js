@@ -9,8 +9,15 @@ var directionEnum = {
     UPLEFT: 8
 }
 
+var collisionEnum = {
+    ROAD: 0,
+    GRASS: 1,
+    WALL: 2
+}
+
 var players;
 var karts;
+var tracks;
 
 class PlayerClass {
     constructor(image, id, kart) {
@@ -23,6 +30,7 @@ class PlayerClass {
         this.currentBoost = 0;
         this.keyPress = 0;
         this.kart = kart;
+        this.currentMaxSpeed = kart.maxSpeed;
     }
 }
 
@@ -35,17 +43,39 @@ class KartClass {
     }
 }
 
+class TrackClass {
+    constructor(map, collision) {
+        this.map = map;
+        this.collisionContext = collision;
+        this.currentCollision = collisionEnum.ROAD;
+    }
+}
+
 function initializePlayersAndKarts() {
     players = new Array();
     karts = new Array();
+    tracks = new Array();
 
     //Kart 1:
     var tempKart = new KartClass(0.3, 1/60, 1/120, 1/70);
     karts.push(tempKart);
 
     //Player 1:
-    tempPlayer = new PlayerClass(imagesToLoad[1].image, 0, karts[0]);
+    var tempPlayer = new PlayerClass(imagesToLoad[1].image, 0, karts[0]);
     tempPlayer.x = 200;
     tempPlayer.y = 250;
     players.push(tempPlayer);
+
+    //Track 1:
+    var tempTrack = new TrackClass(imagesToLoad[0], createCollisionContext());
+    tracks.push(tempTrack);
+}
+
+function createCollisionContext() {
+    var collisionCanvas = document.createElement('canvas');
+    collisionCanvas.width = imagesToLoad[2].image.width;
+    collisionCanvas.height = imagesToLoad[2].image.height;
+    var collisionContext = collisionCanvas.getContext('2d');
+    collisionContext.drawImage(imagesToLoad[2].image, 0, 0);
+    return collisionContext
 }

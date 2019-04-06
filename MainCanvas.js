@@ -41,24 +41,24 @@ function loadImgsToArray(imgs) {
             new imagePlusLocation(img)
             )
     );
-    setStartingLocations();
     initializePlayersAndKarts();
+    setStartingLocations();
 }
 
 function setStartingLocations() {
-
     requestAnimationFrame(gameLoop);
 }
+
+var rgba_byte_array;
 
 function drawEverything() {
     //drawing background
     drawOneImage(imagesToLoad[0], 0);
 
     //drawing players
-    for (var i = 0; i < players.length; i++){
+    for (let i = 0; i < players.length; i++){
         drawOneImage(players[i], 16);
     }
-
 }
 
 function drawOneImage(element, offset) {
@@ -67,5 +67,5 @@ function drawOneImage(element, offset) {
 
 window.onload = function() {
     initializeCanvas();
-    loadImages(['track1.png', '399.png'], loadImgsToArray);
+    loadImages(['Tracks/track1.png', '399.png', 'Collisions/track1.png'], loadImgsToArray);
 }

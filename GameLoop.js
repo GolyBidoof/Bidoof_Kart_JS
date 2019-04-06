@@ -23,65 +23,66 @@ function gameLoop(timestamp) {
     requestAnimationFrame(gameLoop);
 }
 
-var changingDirectionSpeed = 0.5;
-
-function shortAngleDist(a0,a1) {
-    var max = Math.PI*2;
-    var da = (a1 - a0) % max;
-    return 2*da % max - da;
-}
-
-function lerp(a0,a1,t) {
-    return a0 + shortAngleDist(a0,a1)*t;
-}
-
 function movement(timestep) {
-    if (players[0].keyPress!=0) {
-        players[0].currentSpeed += timestep * players[0].kart.acc * Math.abs(players[0].currentSpeed - players[0].kart.maxSpeed);
-    } else {
-        players[0].currentSpeed -= timestep * players[0].kart.decc * Math.abs(players[0].currentSpeed - 0);
-    }
-    var targetAngle = players[0].currentDirection;
-    switch(players[0].keyPress) {
-        case directionEnum.UP:
-            targetAngle = 180;
-            break;
-        case directionEnum.DOWN:
-            targetAngle = 0;
-            break;
-        case directionEnum.RIGHT:
-            targetAngle = 90;
-            break;
-        case directionEnum.LEFT:
-            targetAngle = 270;
-            break;
-        case directionEnum.DOWNLEFT:
-            targetAngle = 315;
-            break;
-        case directionEnum.DOWNRIGHT:
-            targetAngle = 45;
-            break;
-        case directionEnum.UPRIGHT:
-            targetAngle = 135;
-            break;
-        case directionEnum.UPLEFT:
-            targetAngle = 225;
-            break;
-    }
-    var anglePlus360 = players[0].currentDirection+360;
-    var angleMinus360 = players[0].currentDirection-360;
 
-    if (Math.abs(anglePlus360-targetAngle) < Math.abs(players[0].currentDirection-targetAngle)) {
-        players[0].currentDirection += timestep*(targetAngle - anglePlus360)*players[0].kart.handling;
-    } else if (Math.abs(angleMinus360-targetAngle) < Math.abs(players[0].currentDirection-targetAngle)) {
-        players[0].currentDirection += timestep*(targetAngle - angleMinus360)*players[0].kart.handling;
-    } else {
-        players[0].currentDirection += timestep*(targetAngle - players[0].currentDirection)*players[0].kart.handling;
+    collision();
+
+    if (tracks[0].currentCollision != 2) {
+        console.log(players[0].currentSpeed<0);
+        var targetAngle = players[0].currentDirection;
+        switch(players[0].keyPress) {
+            case directionEnum.UP:
+                targetAngle = 180;
+                break;
+            case directionEnum.DOWN:
+                targetAngle = 0;
+                break;
+            case directionEnum.RIGHT:
+                targetAngle = 90;
+                break;
+            case directionEnum.LEFT:
+                targetAngle = 270;
+                break;
+            case directionEnum.DOWNLEFT:
+                targetAngle = 315;
+                break;
+            case directionEnum.DOWNRIGHT:
+                targetAngle = 45;
+                break;
+            case directionEnum.UPRIGHT:
+                targetAngle = 135;
+                break;
+            case directionEnum.UPLEFT:
+                targetAngle = 225;
+                break;
+        }
+        var anglePlus360 = players[0].currentDirection+360;
+        var angleMinus360 = players[0].currentDirection-360;
+    
+        if (Math.abs(anglePlus360-targetAngle) < Math.abs(players[0].currentDirection-targetAngle)) {
+            players[0].currentDirection += timestep*(targetAngle - anglePlus360)*players[0].kart.handling;
+        } else if (Math.abs(angleMinus360-targetAngle) < Math.abs(players[0].currentDirection-targetAngle)) {
+            players[0].currentDirection += timestep*(targetAngle - angleMinus360)*players[0].kart.handling;
+        } else {
+            players[0].currentDirection += timestep*(targetAngle - players[0].currentDirection)*players[0].kart.handling;
+        }
+
+        if (players[0].currentDirection>360) players[0].currentDirection -= 360;
+        else if (players[0].currentDirection<0) players[0].currentDirection += 360;
+
+        if (players[0].keyPress==0 && players[0].currentSpeed<0) {
+            players[0].currentSpeed -= (players[0].currentSpeed - 0)*0.05;
+        } else if (players[0].keyPress!=0 && players[0].currentSpeed < players[0].currentMaxSpeed) {
+            players[0].currentSpeed += timestep * players[0].kart.acc * Math.abs(players[0].currentSpeed - players[0].currentMaxSpeed);
+        } else {
+            players[0].currentSpeed -= timestep * players[0].kart.decc * Math.max(players[0].currentSpeed - 0, 0);
+        }
     }
-
-    if (players[0].currentDirection>360) players[0].currentDirection -= 360;
-    else if (players[0].currentDirection<0) players[0].currentDirection += 360;
-
+    else {
+        players[0].currentSpeed = players[0].currentMaxSpeed;
+    }
+    
+        
     players[0].x += players[0].currentSpeed * Math.sin(players[0].currentDirection * Math.PI / 180) * timestep;
     players[0].y += players[0].currentSpeed * Math.cos(players[0].currentDirection * Math.PI / 180) * timestep;
 
