@@ -3,6 +3,7 @@ var canvas;
 var imagesToLoad;
 var loadedImages;
 
+
 class imagePlusLocation {
     constructor(image) {
         this.image = image;
@@ -19,8 +20,17 @@ function initializeCanvas() {
     canvas = document.getElementById("myCanvas");
     ctx = canvas.getContext("2d");
     imagesToLoad = new Array();
+    mainGameProperties = new MainGameProperties();
     document.onkeydown = checkKey;
     document.onkeyup = resetKey;
+    //document.onmousedown = debugCoords;
+}
+
+function debugCoords(e) {
+    var rect = canvas.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
+    console.log("[" + x  +", " + y + "],");
 }
 
 function loadImages(images, callback) {
@@ -42,6 +52,7 @@ function loadImgsToArray(imgs) {
             )
     );
     initializePlayersAndKarts();
+    initCheckpoints();
     setStartingLocations();
 }
 
@@ -49,20 +60,21 @@ function setStartingLocations() {
     requestAnimationFrame(gameLoop);
 }
 
-var rgba_byte_array;
-
 function drawEverything() {
     //drawing background
-    drawOneImage(imagesToLoad[0], 0);
+    drawImages(imagesToLoad[0].image, 0, 0, 0, 0);
 
     //drawing players
     for (let i = 0; i < players.length; i++){
-        drawOneImage(players[i], 16);
+        drawImages(players[i].image, players[i].currentDirection*Math.PI/180, players[i].x, players[i].y, 16);
     }
 }
-
-function drawOneImage(element, offset) {
-    ctx.drawImage(element.image, element.x - offset, element.y - offset);
+function drawImages(image, angleInRad, positionX, positionY, offset) {
+    ctx.save();
+    ctx.translate(positionX-offset + image.width / 2, positionY-offset + image.height / 2);
+    ctx.rotate(-angleInRad);
+    ctx.drawImage(image, -image.width / 2, -image.height / 2);
+    ctx.restore();
 }
 
 window.onload = function() {

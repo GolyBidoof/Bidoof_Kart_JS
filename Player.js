@@ -31,14 +31,17 @@ class PlayerClass {
         this.keyPress = 0;
         this.kart = kart;
         this.currentMaxSpeed = kart.maxSpeed;
+        this.currentCheckpoint = 0;
+        this.traversedKeyCheckpoints = [];
+        this.countedThisKeyCheckpoint = false;
     }
 }
 
 class KartClass {
-    constructor(maxSpeed, acc, decc, handling) {
+    constructor(maxSpeed, acc, dec, handling) {
         this.maxSpeed = maxSpeed;
         this.acc = acc;
-        this.decc = decc;
+        this.dec = dec;
         this.handling = handling;
     }
 }
@@ -48,6 +51,8 @@ class TrackClass {
         this.map = map;
         this.collisionContext = collision;
         this.currentCollision = collisionEnum.ROAD;
+        this.checkpoints = [];
+        this.keyCheckpoints = [];
     }
 }
 
@@ -57,13 +62,14 @@ function initializePlayersAndKarts() {
     tracks = new Array();
 
     //Kart 1:
-    var tempKart = new KartClass(0.3, 1/60, 1/120, 1/70);
+    var tempKart = new KartClass(0.3, 1/60, 1/120, 1/90);
     karts.push(tempKart);
 
     //Player 1:
     var tempPlayer = new PlayerClass(imagesToLoad[1].image, 0, karts[0]);
-    tempPlayer.x = 200;
-    tempPlayer.y = 250;
+    tempPlayer.x = 330;
+    tempPlayer.y = 230;
+    tempPlayer.currentDirection = 135;
     players.push(tempPlayer);
 
     //Track 1:

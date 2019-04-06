@@ -5,19 +5,13 @@ function collision() {
         //grass
         players[0].currentMaxSpeed = players[0].kart.maxSpeed * 0.3;
         tracks[0].currentCollision = collisionEnum.GRASS;
-        //console.log("grass");
-    } else if (pixelData[0] == 255 && pixelData[1] == 0 && pixelData[2]==42) {
+    } else if (pixelData[0] == 255 && pixelData[1] == 0 && pixelData[2] == 42) {
         //wall 
         players[0].currentMaxSpeed = players[0].kart.maxSpeed * -0.10;
-        if (tracks[0].currentCollision != collisionEnum.WALL) {
-            //players[0].currentDirection = -players[0].currentDirection;
-            tracks[0].currentCollision = collisionEnum.WALL;
-        }
-        console.log("wall");
+        tracks[0].currentCollision = collisionEnum.WALL;
     } else {
         //road 
         players[0].currentMaxSpeed = players[0].kart.maxSpeed;
         tracks[0].currentCollision = collisionEnum.ROAD;
-        //console.log("road");
     }
 }

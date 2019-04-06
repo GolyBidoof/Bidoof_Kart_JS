@@ -1,34 +1,51 @@
-var maxFPS = 60;
-var timestep = 1000/60;
-var delta = 0;
-var lastFrameTimeMs = 0;
+
+class MainGameProperties {
+    constructor() {
+        this.maxFPS = 60;
+        this.timestep = 1000/60;
+        this.delta = 0;
+        this.lastFrameTimeMs = 0;
+        this.currentLapTime = 0;
+        this.currentLap = 1;
+        this.currentBestLapTime = 59999;
+    }
+}
+
+var mainGameProperties;
 
 function gameLoop(timestamp) {
-    if (timestamp < lastFrameTimeMs + (1000 / maxFPS)) {
+    if (timestamp < mainGameProperties.lastFrameTimeMs + (1000 / mainGameProperties.maxFPS)) {
         requestAnimationFrame(gameLoop);
         return;
     }
-    delta += timestamp - lastFrameTimeMs;
-    lastFrameTimeMs = timestamp;
+    mainGameProperties.delta += timestamp - mainGameProperties.lastFrameTimeMs;
+    mainGameProperties.lastFrameTimeMs = timestamp;
+    mainGameProperties.currentLapTime += mainGameProperties.delta;
 
     var numUpdateSteps = 0;
-    while (delta >= timestep) {
-        movement(timestep);
-        delta -= timestep;
+    while (mainGameProperties.delta >= mainGameProperties.timestep) {
+        movement(mainGameProperties.timestep);
+        mainGameProperties.delta -= mainGameProperties.timestep;
         if (++numUpdateSteps >= 240) {
             break;
         }
     }
     drawEverything();
+    //debugDrawCheckpoints();
+
+    ctx.font = "15px Arial";
+    ctx.fillText(Math.floor(mainGameProperties.currentLapTime/1000 % 60)  + ":" + ("000" + Math.round(mainGameProperties.currentLapTime % 1000)).slice(-3), canvas.width*0.02, canvas.height*0.05);
+
+    ctx.fillText("Lap " + mainGameProperties.currentLap, canvas.width*0.95, canvas.height*0.05);
+
+    ctx.fillText("PB: " + Math.floor(mainGameProperties.currentBestLapTime/1000 % 60) + ":" + ("000" + Math.round(mainGameProperties.currentBestLapTime % 1000)).slice(-3), canvas.width*0.02, canvas.height*0.95);
     requestAnimationFrame(gameLoop);
 }
 
 function movement(timestep) {
-
     collision();
 
     if (tracks[0].currentCollision != 2) {
-        console.log(players[0].currentSpeed<0);
         var targetAngle = players[0].currentDirection;
         switch(players[0].keyPress) {
             case directionEnum.UP:
@@ -60,31 +77,35 @@ function movement(timestep) {
         var angleMinus360 = players[0].currentDirection-360;
     
         if (Math.abs(anglePlus360-targetAngle) < Math.abs(players[0].currentDirection-targetAngle)) {
-            players[0].currentDirection += timestep*(targetAngle - anglePlus360)*players[0].kart.handling;
+            players[0].currentDirection += mainGameProperties.timestep*(targetAngle - anglePlus360)*players[0].kart.handling;
         } else if (Math.abs(angleMinus360-targetAngle) < Math.abs(players[0].currentDirection-targetAngle)) {
-            players[0].currentDirection += timestep*(targetAngle - angleMinus360)*players[0].kart.handling;
+            players[0].currentDirection += mainGameProperties.timestep*(targetAngle - angleMinus360)*players[0].kart.handling;
         } else {
-            players[0].currentDirection += timestep*(targetAngle - players[0].currentDirection)*players[0].kart.handling;
+            players[0].currentDirection += mainGameProperties.timestep*(targetAngle - players[0].currentDirection)*players[0].kart.handling;
         }
 
         if (players[0].currentDirection>360) players[0].currentDirection -= 360;
         else if (players[0].currentDirection<0) players[0].currentDirection += 360;
 
         if (players[0].keyPress==0 && players[0].currentSpeed<0) {
+            //Bumping against a wall
             players[0].currentSpeed -= (players[0].currentSpeed - 0)*0.05;
         } else if (players[0].keyPress!=0 && players[0].currentSpeed < players[0].currentMaxSpeed) {
-            players[0].currentSpeed += timestep * players[0].kart.acc * Math.abs(players[0].currentSpeed - players[0].currentMaxSpeed);
+            //Accelerating
+            players[0].currentSpeed += mainGameProperties.timestep * players[0].kart.acc * Math.abs(players[0].currentSpeed - players[0].currentMaxSpeed);
         } else {
-            players[0].currentSpeed -= timestep * players[0].kart.decc * Math.max(players[0].currentSpeed - 0, 0);
+            //Decelerating
+            players[0].currentSpeed -= mainGameProperties.timestep * players[0].kart.dec * Math.max(players[0].currentSpeed - 0, 0);
         }
     }
     else {
         players[0].currentSpeed = players[0].currentMaxSpeed;
     }
-    
         
-    players[0].x += players[0].currentSpeed * Math.sin(players[0].currentDirection * Math.PI / 180) * timestep;
-    players[0].y += players[0].currentSpeed * Math.cos(players[0].currentDirection * Math.PI / 180) * timestep;
+    players[0].x += players[0].currentSpeed * Math.sin(players[0].currentDirection * Math.PI / 180) * mainGameProperties.timestep;
+    players[0].y += players[0].currentSpeed * Math.cos(players[0].currentDirection * Math.PI / 180) * mainGameProperties.timestep;
+
+    checkIfInsideCheckpoints();
 
     if (players[0].x<0) players[0].x=0;
     if (players[0].y<0) players[0].y=0;
