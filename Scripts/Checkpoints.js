@@ -103,6 +103,7 @@ function lapCount() {
         players[0].traversedKeyCheckpoints = [];
         if (mainGameProperties.currentLapTime<mainGameProperties.currentBestLapTime) 
             mainGameProperties.currentBestLapTime = mainGameProperties.currentLapTime;
+        mainGameProperties.previousLapTime = mainGameProperties.currentLapTime;
         mainGameProperties.currentLapTime = 0;
         mainGameProperties.currentLap++;
         mainGameProperties.newLapTextFrame=1;

@@ -11,6 +11,7 @@ class MainGameProperties {
         this.countdownClock = 351;
         this.goClock = 100;
         this.initiated = false;
+        this.previousLapTime = 0;
     }
 }
 
@@ -25,9 +26,16 @@ function printingTextOnScreen() {
     
     if (mainGameProperties.newLapTextFrame>0) {
         ctx.font = 20+mainGameProperties.newLapTextFrame/2 + "px Bungee";
-        ctx.fillText("Next Lap!", canvas.width*0.45-mainGameProperties.newLapTextFrame, canvas.height*0.45+mainGameProperties.newLapTextFrame/2);
+        var toPrint = '';
+        if (mainGameProperties.previousLapTime==mainGameProperties.currentBestLapTime)
+            toPrint += "PB! "
+        toPrint += Math.floor(mainGameProperties.previousLapTime/1000 % 60) + ":" + ("000" + Math.round(mainGameProperties.previousLapTime % 1000)).slice(-3);
+        if (!(mainGameProperties.newLapTextFrame%4==0) || !(mainGameProperties.newLapTextFrame%4==1)) {
+            ctx.fillText(toPrint, canvas.width*0.40-mainGameProperties.newLapTextFrame, canvas.height*0.45+mainGameProperties.newLapTextFrame/2);
+        }
+
         mainGameProperties.newLapTextFrame++;
-        if (mainGameProperties.newLapTextFrame>50) 
+        if (mainGameProperties.newLapTextFrame>150) 
             mainGameProperties.newLapTextFrame=0;
     }
     
@@ -123,6 +131,10 @@ function movement(timestep) {
     if (players[0].boostFrames>0) {
         players[0].boostFrames--;
         players[0].currentMaxSpeed = players[0].currentMaxSpeed * 1.5;
+        if (players[0].boostFrames==0) {
+            var boost = document.getElementById("boost-sfx");
+            boost.pause();
+        }
     }
     if (tracks[0].currentCollision != 2) {
         if (players[0].currentDirection>360) players[0].currentDirection -= 360;
@@ -142,7 +154,7 @@ function movement(timestep) {
         }
     }
     else {
-        players[0].currentSpeed = players[0].currentMaxSpeed;
+        players[0].currentSpeed = -players[0].currentSpeed;
     }
         
     players[0].x += players[0].currentSpeed * Math.sin(players[0].currentDirection * Math.PI / 180) * timestep;
@@ -167,13 +179,16 @@ function resetKey(e) {
 }
 
 function boost() {
-    if (players[0].heldItem = heldItem.MUSHROOM) {
-        players[0].boostFrames = 60;
+    if (players[0].heldItem == heldItem.MUSHROOM) {
+        players[0].boostFrames = 90;
         players[0].heldItem = heldItem.EMPTY;
         players[0].currentSpeed = players[0].currentSpeed * 1.5;
         var bidoof = document.getElementById("bidoof-cry");
         bidoof.play();
         bidoof.volume = 0.5;
+        var boost = document.getElementById("boost-sfx");
+        boost.play();
+        boost.volume = 0.5;
     }
 }
 

@@ -13,7 +13,7 @@ function collision() {
             gettingHit.pause();
             gettingHit.currentTime = 0
         }
-        players[0].currentMaxSpeed = players[0].kart.maxSpeed * -0.50;
+        players[0].currentMaxSpeed = players[0].currentSpeed * -0.5;
         tracks[0].currentCollision = collisionEnum.WALL;
     } else {
         //road 
