@@ -8,6 +8,9 @@ class MainGameProperties {
         this.currentLap = 1;
         this.currentBestLapTime = 59999;
         this.newLapTextFrame = 0;
+        this.countdownClock = 351;
+        this.goClock = 100;
+        this.initiated = false;
     }
 }
 
@@ -30,6 +33,43 @@ function printingTextOnScreen() {
     
 }
 
+function countdownClock() {
+    ctx.fillStyle = "black";
+    ctx.font = 30 + (300-mainGameProperties.countdownClock)/5 + "px Bungee";
+    var beforeCountdown = document.getElementById("start-your-engines");
+    if (mainGameProperties.countdownClock>200) {
+        beforeCountdown.play();
+        beforeCountdown.volume = 0.5;
+    } else if (mainGameProperties.countdownClock>140 && mainGameProperties.countdownClock<=200) {
+        var countdown = document.getElementById("countdown");
+        countdown.play();
+        countdown.volume = 0.5;
+        ctx.fillText("3", canvas.width*0.5, canvas.height*0.55);
+    } else if (mainGameProperties.countdownClock>80 && mainGameProperties.countdownClock<=200) {
+        ctx.fillText("2", canvas.width*0.5, canvas.height*0.55);
+    } else if (mainGameProperties.countdownClock>0 && mainGameProperties.countdownClock<=100) {
+        ctx.fillText("1", canvas.width*0.5, canvas.height*0.55);
+    } else if (mainGameProperties.countdownClock<=0 && mainGameProperties.goClock>0) {
+        ctx.font = 200 + (300-mainGameProperties.countdownClock)/2 + "px Bungee";
+        ctx.fillText("GO!", canvas.width*0.25, canvas.height*0.7);
+        mainGameProperties.goClock--;
+    }
+    if (mainGameProperties.goClock<30) {
+        var f8 = document.getElementById("f8-circuit");
+        f8.play();
+        f8.loop = true;
+        f8.volume = 0.5;
+    }
+    if (!beforeCountdown.paused) {
+        mainGameProperties.initiated = true;
+    }    
+    if (mainGameProperties.initiated) {
+        mainGameProperties.countdownClock--;
+    } else {
+        ctx.fillText("Loading...", canvas.width*0.5, canvas.height*0.05);
+    }
+}
+
 function gameLoop(timestamp) {
     if (timestamp < mainGameProperties.lastFrameTimeMs + (1000 / mainGameProperties.maxFPS)) {
         requestAnimationFrame(gameLoop);
@@ -41,16 +81,24 @@ function gameLoop(timestamp) {
 
     var numUpdateSteps = 0;
     while (mainGameProperties.delta >= mainGameProperties.timestep) {
-        movement(mainGameProperties.timestep);
-        mainGameProperties.currentLapTime += mainGameProperties.timestep;
         mainGameProperties.delta -= mainGameProperties.timestep;
         if (++numUpdateSteps >= 240) {
             break;
         }
+        drawEverything();
+        //debugDrawCheckpoints();
+
+        if(mainGameProperties.countdownClock>0 || mainGameProperties.goClock>0) {
+            countdownClock();
+        } 
+        if (mainGameProperties.countdownClock<=0) {
+            mainGameProperties.currentLapTime += mainGameProperties.timestep;
+            movement(mainGameProperties.timestep);
+        }
+
+        printingTextOnScreen();
     }
-    drawEverything();
-    //debugDrawCheckpoints();
-    printingTextOnScreen();
+
     requestAnimationFrame(gameLoop);
 }
 

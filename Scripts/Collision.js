@@ -6,7 +6,14 @@ function collision() {
         tracks[0].currentCollision = collisionEnum.GRASS;
     } else if (pixelData[0] > 200) {
         //wall 
-        players[0].currentMaxSpeed = players[0].kart.maxSpeed * -0.10;
+        var gettingHit = document.getElementById("getting-hit");
+        if (gettingHit.paused) {
+            gettingHit.play();
+        }else{
+            gettingHit.pause();
+            gettingHit.currentTime = 0
+        }
+        players[0].currentMaxSpeed = players[0].kart.maxSpeed * -0.50;
         tracks[0].currentCollision = collisionEnum.WALL;
     } else {
         //road 

@@ -72,9 +72,7 @@ function checkIfInsideCheckpoints() {
         }
         var returnVal = pnpoly(4, xCoords, yCoords, players[0].x, players[0].y);
         if (returnVal==true) {
-            console.log(i);
             if (tracks[0].switchingCollisions.includes(i) && tracks[0].switched==false) {
-                console.log("Switched!");
                 tracks[0].switched = true;
                 tracks[0].currentCollisionContext = 1 - tracks[0].currentCollisionContext;
             } else if (!tracks[0].switchingCollisions.includes(i) && tracks[0].switched==true) {
@@ -108,6 +106,8 @@ function lapCount() {
         mainGameProperties.currentLapTime = 0;
         mainGameProperties.currentLap++;
         mainGameProperties.newLapTextFrame=1;
+        var nextLap = document.getElementById("next-lap");
+        nextLap.play();
     }
 }
 
