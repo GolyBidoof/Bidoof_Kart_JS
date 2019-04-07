@@ -36,11 +36,12 @@ function gameLoop(timestamp) {
     }
     mainGameProperties.delta += timestamp - mainGameProperties.lastFrameTimeMs;
     mainGameProperties.lastFrameTimeMs = timestamp;
-    mainGameProperties.currentLapTime += mainGameProperties.delta;
+    console.log(mainGameProperties.delta);
 
     var numUpdateSteps = 0;
     while (mainGameProperties.delta >= mainGameProperties.timestep) {
         movement(mainGameProperties.timestep);
+        mainGameProperties.currentLapTime += mainGameProperties.timestep;
         mainGameProperties.delta -= mainGameProperties.timestep;
         if (++numUpdateSteps >= 240) {
             break;
