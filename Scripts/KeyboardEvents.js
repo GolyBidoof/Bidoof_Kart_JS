@@ -31,36 +31,36 @@ function CheckWhichOnesAreClicked() {
     if (map[39]) amntOfClicked++;
     if (map[40]) amntOfClicked++;
     if (amntOfClicked>2) {
-        players[0].keyPress = 0;
+        players[mainGameProperties.currentPlayer].keyPress = 0;
         return;
     }
 
     if (map[37] && map[38] ) {
-        players[0].keyPress = directionEnum.UPLEFT;
+        players[mainGameProperties.currentPlayer].keyPress = directionEnum.UPLEFT;
     }
     else if (map[38] && map[39]) {
-        players[0].keyPress = directionEnum.UPRIGHT;
+        players[mainGameProperties.currentPlayer].keyPress = directionEnum.UPRIGHT;
     }
     else if (map[40] && map[37]) {
-        players[0].keyPress = directionEnum.DOWNLEFT;
+        players[mainGameProperties.currentPlayer].keyPress = directionEnum.DOWNLEFT;
     }
     else if (map[40] && map[39]) {
-        players[0].keyPress = directionEnum.DOWNRIGHT;
+        players[mainGameProperties.currentPlayer].keyPress = directionEnum.DOWNRIGHT;
     }
     else if (map[38]) {
-        players[0].keyPress = directionEnum.UP;
+        players[mainGameProperties.currentPlayer].keyPress = directionEnum.UP;
     }
     else if (map[37]) {
-        players[0].keyPress = directionEnum.LEFT;
+        players[mainGameProperties.currentPlayer].keyPress = directionEnum.LEFT;
     }
     else if (map[39]) {
-        players[0].keyPress = directionEnum.RIGHT;
+        players[mainGameProperties.currentPlayer].keyPress = directionEnum.RIGHT;
     }
     else if (map[40]) {
-        players[0].keyPress = directionEnum.DOWN;
+        players[mainGameProperties.currentPlayer].keyPress = directionEnum.DOWN;
     } 
     else {
-        players[0].keyPress = 0;
+        players[mainGameProperties.currentPlayer].keyPress = 0;
     }
 }
 

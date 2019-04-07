@@ -18,17 +18,22 @@ function sleep(ms) {
 function initializeCanvas() {
     canvas = document.getElementById("myCanvas");
     ctx = canvas.getContext("2d");
+    ctx.mozImageSmoothingEnabled = false;
+    ctx.webkitImageSmoothingEnabled = false;
+    ctx.msImageSmoothingEnabled = false;
+    ctx.imageSmoothingEnabled = false;
     imagesToLoad = new Array();
     mainGameProperties = new MainGameProperties();
+
     document.onkeydown = checkKey;
     document.onkeyup = resetKey;
-    document.onmousedown = debugCoords;
+    //document.onmousedown = debugCoords;
 }
 
 function debugCoords(e) {
     var rect = canvas.getBoundingClientRect();
-    var x = e.clientX - rect.left + players[0].x - canvas.width/2;
-    var y = e.clientY - rect.top + players[0].y - canvas.height/2;
+    var x = e.clientX - rect.left + players[mainGameProperties.currentPlayer].x - canvas.width/2;
+    var y = e.clientY - rect.top + players[mainGameProperties.currentPlayer].y - canvas.height/2;
     console.log("[" + x  +", " + y + "],");
 }
 
@@ -51,6 +56,7 @@ function loadImgsToArray(imgs) {
             )
     );
     initializePlayersAndKarts();
+    initMenu();
     setStartingLocations();
 }
 
@@ -64,19 +70,19 @@ function drawEverything() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     //drawing background
-    drawImages(imagesToLoad[0].image, 0, 0-players[0].x, 0-players[0].y, 0);
+    drawImages(imagesToLoad[0].image, 0, 0-players[mainGameProperties.currentPlayer].x, 0-players[mainGameProperties.currentPlayer].y, 0);
 
     //drawing players
-    for (let i = 0; i < players.length; i++){
-        drawImages(players[i].image, players[i].currentDirection*Math.PI/180, /*players[i].x, players[i].y,*/canvas.width/2, canvas.height/2, 16);
-    }
+    //for (let i = 0; i < players.length; i++){
+        drawImages(players[mainGameProperties.currentPlayer].image, players[mainGameProperties.currentPlayer].currentDirection*Math.PI/180, /*players[i].x, players[i].y,*/canvas.width/2, canvas.height/2, 16);
+    //}
 
     drawHUD();
     //debugDrawCheckpoints();
 }
 
 function drawHUD() {
-    if (players[0].heldItem == heldItem.MUSHROOM) {
+    if (players[mainGameProperties.currentPlayer].heldItem == heldItem.MUSHROOM) {
         ctx.drawImage(imagesToLoad[5].image, canvas.width*0.9, canvas.height*0.82);
     } else {
         ctx.drawImage(imagesToLoad[4].image, canvas.width*0.9, canvas.height*0.82);
@@ -101,7 +107,15 @@ window.onload = function() {
         //txt = "Cancelled";
     //} else {
         //if (track=="Figure-8") {
-            loadImages(['Tracks/figure8.png', 'Characters/399.png', 'Collisions/figure81.png', 'Collisions/figure82.png', 'HUD/EmptyRoulette.png', 'HUD/MushroomExists.png'], loadImgsToArray);
+            loadImages(['Tracks/figure8.png', 'Characters/399.png', 
+            'Tracks/Collisions/figure81.png', 'Tracks/Collisions/figure82.png', 
+            'HUD/EmptyRoulette.png', 'HUD/MushroomExists.png', 
+            'HUD/Menu/CharacterUnclickedButton.png','HUD/Menu/CharacterClickedButton.png', 
+            'HUD/Menu/CharacterCheckedButton.png', 'Characters/202.png', 
+            'Characters/272.png', 'Characters/341.png', 
+            'Characters/476.png', 'Characters/618.png',
+            'HUD/Menu/Background.png', 'HUD/Menu/ButtonUnclicked.png',
+            'HUD/Menu/ButtonClicked.png', 'HUD/Menu/ButtonChecked.png'], loadImgsToArray);
         //} else {
             //loadImages(['Tracks/track1.png', 'Characters/399.png', 'Collisions/track1.png'], loadImgsToArray);
         //}

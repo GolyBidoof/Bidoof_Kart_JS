@@ -22,6 +22,14 @@ function printingTextOnScreen() {
     
 }
 
+function menuText() {
+    ctx.fillStyle = "white";
+    ctx.font = "30px Bungee";
+    ctx.fillText("Select your favorite character!", canvas.width*0.25, canvas.height*0.2);
+    ctx.font = "20px"
+    ctx.fillText("He's quick and nimble", canvas.width*0.32, canvas.height*0.35);
+}
+
 function countdownClock() {
     ctx.fillStyle = "black";
     ctx.font = 30 + (300-mainGameProperties.countdownClock)/5 + "px Bungee";

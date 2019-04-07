@@ -76,7 +76,7 @@ function checkIfInsideCheckpoints() {
             var xCoords = [tracks[0].checkpoints[i].L.x, tracks[0].checkpoints[0].L.x, tracks[0].checkpoints[0].R.x, tracks[0].checkpoints[i].R.x];
             var yCoords = [tracks[0].checkpoints[i].L.y, tracks[0].checkpoints[0].L.y, tracks[0].checkpoints[0].R.y, tracks[0].checkpoints[i].R.y];
         }
-        var returnVal = pnpoly(4, xCoords, yCoords, players[0].x, players[0].y);
+        var returnVal = pnpoly(4, xCoords, yCoords, players[mainGameProperties.currentPlayer].x, players[mainGameProperties.currentPlayer].y);
         if (returnVal==true) {
             if (tracks[0].switchingCollisions.includes(i) && tracks[0].switched==false) {
                 tracks[0].switched = true;
@@ -84,15 +84,15 @@ function checkIfInsideCheckpoints() {
             } else if (!tracks[0].switchingCollisions.includes(i) && tracks[0].switched==true) {
                 tracks[0].switched = false;
             }
-            if (players[0].currentCheckpoint == 0 && players[0].traversedKeyCheckpoints.length>1) {
+            if (players[mainGameProperties.currentPlayer].currentCheckpoint == 0 && players[mainGameProperties.currentPlayer].traversedKeyCheckpoints.length>1) {
                 lapCount();
             }
-            players[0].currentCheckpoint=i;
-            if (tracks[0].checkpoints[i].key==true && players[0].countedThisKeyCheckpoint==false) {
-                players[0].countedThisKeyCheckpoint = true;
-                players[0].traversedKeyCheckpoints.push(i);
+            players[mainGameProperties.currentPlayer].currentCheckpoint=i;
+            if (tracks[0].checkpoints[i].key==true && players[mainGameProperties.currentPlayer].countedThisKeyCheckpoint==false) {
+                players[mainGameProperties.currentPlayer].countedThisKeyCheckpoint = true;
+                players[mainGameProperties.currentPlayer].traversedKeyCheckpoints.push(i);
             } else if (tracks[0].checkpoints[i].key==false) {
-                players[0].countedThisKeyCheckpoint = false;
+                players[mainGameProperties.currentPlayer].countedThisKeyCheckpoint = false;
             }
             break;
         }
@@ -102,18 +102,18 @@ function checkIfInsideCheckpoints() {
 function lapCount() {
     var count = 0;
     for (let i=0; i<tracks[0].keyCheckpoints.length; i++) {
-        var n = players[0].traversedKeyCheckpoints.includes(tracks[0].keyCheckpoints[i]);
+        var n = players[mainGameProperties.currentPlayer].traversedKeyCheckpoints.includes(tracks[0].keyCheckpoints[i]);
         if (n) count++;
     }
     if (count==tracks[0].keyCheckpoints.length) {
-        players[0].traversedKeyCheckpoints = [];
+        players[mainGameProperties.currentPlayer].traversedKeyCheckpoints = [];
         if (mainGameProperties.currentLapTime<mainGameProperties.currentBestLapTime) 
             mainGameProperties.currentBestLapTime = mainGameProperties.currentLapTime;
         mainGameProperties.previousLapTime = mainGameProperties.currentLapTime;
         mainGameProperties.currentLapTime = 0;
         mainGameProperties.currentLap++;
         mainGameProperties.newLapTextFrame=1;
-        players[0].heldItem = heldItem.MUSHROOM;
+        players[mainGameProperties.currentPlayer].heldItem = heldItem.MUSHROOM;
         var nextLap = document.getElementById("next-lap");
         nextLap.play();
     }
