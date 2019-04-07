@@ -62,7 +62,7 @@ function initializePlayersAndKarts() {
     tracks = new Array();
 
     //Kart 1:
-    var tempKart = new KartClass(0.25, 1/70, 1/120, 1/8);
+    var tempKart = new KartClass(0.25, 1/500, 1/120, 1/8);
     karts.push(tempKart);
 
     //Player 1:

@@ -14,6 +14,7 @@ class MainGameProperties {
 var mainGameProperties;
 
 function printingTextOnScreen() {
+    ctx.fillStyle = "black";
     ctx.font = "20px Bungee";
     ctx.fillText(Math.floor(mainGameProperties.currentLapTime/1000 % 60)  + ":" + ("000" + Math.round(mainGameProperties.currentLapTime % 1000)).slice(-3), canvas.width*0.02, canvas.height*0.05);
     ctx.fillText("Lap " + mainGameProperties.currentLap, canvas.width*0.92, canvas.height*0.05);

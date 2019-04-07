@@ -61,12 +61,17 @@ function setStartingLocations() {
 }
 
 function drawEverything() {
+
     //drawing background
-    drawImages(imagesToLoad[0].image, 0, 0, 0, 0);
+    ctx.fillStyle = "rgba(34, 177, 76, 1)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    //drawing background
+    drawImages(imagesToLoad[0].image, 0, 0-players[0].x+canvas.width/2, 0-players[0].y+canvas.height/2, 0);
 
     //drawing players
     for (let i = 0; i < players.length; i++){
-        drawImages(players[i].image, players[i].currentDirection*Math.PI/180, players[i].x, players[i].y, 16);
+        drawImages(players[i].image, players[i].currentDirection*Math.PI/180, /*players[i].x, players[i].y,*/canvas.width/2, canvas.height/2, 16);
     }
 }
 function drawImages(image, angleInRad, positionX, positionY, offset) {
