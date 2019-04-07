@@ -106,6 +106,7 @@ function lapCount() {
         mainGameProperties.currentLapTime = 0;
         mainGameProperties.currentLap++;
         mainGameProperties.newLapTextFrame=1;
+        players[0].heldItem = heldItem.MUSHROOM;
         var nextLap = document.getElementById("next-lap");
         nextLap.play();
     }

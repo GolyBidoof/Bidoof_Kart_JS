@@ -9,6 +9,11 @@ var directionEnum = {
     UPLEFT: 8
 }
 
+var heldItem = {
+    EMPTY: 0,
+    MUSHROOM: 1
+}
+
 var collisionEnum = {
     ROAD: 0,
     GRASS: 1,
@@ -34,6 +39,8 @@ class PlayerClass {
         this.currentCheckpoint = 0;
         this.traversedKeyCheckpoints = [];
         this.countedThisKeyCheckpoint = false;
+        this.heldItem = heldItem.MUSHROOM;
+        this.boostFrames = 0;
     }
 }
 

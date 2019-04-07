@@ -120,7 +120,10 @@ function targetAngleSet(timestep) {
 function movement(timestep) {
     collision();
     targetAngleSet(timestep);
-
+    if (players[0].boostFrames>0) {
+        players[0].boostFrames--;
+        players[0].currentMaxSpeed = players[0].currentMaxSpeed * 1.5;
+    }
     if (tracks[0].currentCollision != 2) {
         if (players[0].currentDirection>360) players[0].currentDirection -= 360;
         else if (players[0].currentDirection<0) players[0].currentDirection += 360;
@@ -163,8 +166,20 @@ function resetKey(e) {
     CheckWhichOnesAreClicked();
 }
 
+function boost() {
+    if (players[0].heldItem = heldItem.MUSHROOM) {
+        players[0].boostFrames = 60;
+        players[0].heldItem = heldItem.EMPTY;
+        players[0].currentSpeed = players[0].currentSpeed * 1.5;
+        var bidoof = document.getElementById("bidoof-cry");
+        bidoof.play();
+        bidoof.volume = 0.5;
+    }
+}
+
 function CheckWhichOnesAreClicked() {
     var amntOfClicked = 0;
+    if (map[32]) if(mainGameProperties.countdownClock < 0) boost();
     if (map[37]) amntOfClicked++;
     if (map[38]) amntOfClicked++;
     if (map[39]) amntOfClicked++;
@@ -203,7 +218,7 @@ function CheckWhichOnesAreClicked() {
     }
 }
 
-var map = {37: false, 38: false, 39: false, 40: false};
+var map = {32: false, 37: false, 38: false, 39: false, 40: false};
 
 function checkKey(e) {
     e = e || window.event;

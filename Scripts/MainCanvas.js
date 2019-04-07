@@ -71,8 +71,18 @@ function drawEverything() {
         drawImages(players[i].image, players[i].currentDirection*Math.PI/180, /*players[i].x, players[i].y,*/canvas.width/2, canvas.height/2, 16);
     }
 
-    debugDrawCheckpoints();
+    drawHUD();
+    //debugDrawCheckpoints();
 }
+
+function drawHUD() {
+    if (players[0].heldItem == heldItem.MUSHROOM) {
+        ctx.drawImage(imagesToLoad[5].image, canvas.width*0.9, canvas.height*0.82);
+    } else {
+        ctx.drawImage(imagesToLoad[4].image, canvas.width*0.9, canvas.height*0.82);
+    }
+}
+
 function drawImages(image, angleInRad, positionX, positionY, offset) {
     ctx.save();
     if (offset!=0) {
@@ -91,7 +101,7 @@ window.onload = function() {
         //txt = "Cancelled";
     //} else {
         //if (track=="Figure-8") {
-            loadImages(['Tracks/figure8.png', 'Characters/399.png', 'Collisions/figure81.png', 'Collisions/figure82.png'], loadImgsToArray);
+            loadImages(['Tracks/figure8.png', 'Characters/399.png', 'Collisions/figure81.png', 'Collisions/figure82.png', 'HUD/EmptyRoulette.png', 'HUD/MushroomExists.png'], loadImgsToArray);
         //} else {
             //loadImages(['Tracks/track1.png', 'Characters/399.png', 'Collisions/track1.png'], loadImgsToArray);
         //}
