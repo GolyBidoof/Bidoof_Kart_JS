@@ -37,7 +37,7 @@ function gameLoop(timestamp) {
     }
     mainGameProperties.delta += timestamp - mainGameProperties.lastFrameTimeMs;
     mainGameProperties.lastFrameTimeMs = timestamp;
-    console.log(mainGameProperties.delta);
+    //console.log(mainGameProperties.delta);
 
     var numUpdateSteps = 0;
     while (mainGameProperties.delta >= mainGameProperties.timestep) {
@@ -104,8 +104,8 @@ function movement(timestep) {
 function checkIllegalMoves() {
     if (players[0].x<0) players[0].x=0;
     if (players[0].y<0) players[0].y=0;
-    if (players[0].x>canvas.width) players[0].x=canvas.width;
-    if (players[0].y>canvas.height) players[0].y=canvas.height;
+    if (players[0].x>tracks[0].map.width) players[0].x=tracks[0].map.width;
+    if (players[0].y>tracks[0].map.height) players[0].y=tracks[0].map.height;
 }
 
 function resetKey(e) {

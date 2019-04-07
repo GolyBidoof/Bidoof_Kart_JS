@@ -47,12 +47,18 @@ class KartClass {
 }
 
 class TrackClass {
-    constructor(map, collision) {
+    constructor(map, name, collision, startingPosition, startingDirection, currentCollisionContext, switchingCollisions) {
         this.map = map;
+        this.name = name;
         this.collisionContext = collision;
+        this.currentCollisionContext = currentCollisionContext;
         this.currentCollision = collisionEnum.ROAD;
         this.checkpoints = [];
         this.keyCheckpoints = [];
+        this.startingPosition = startingPosition;
+        this.startingDirection = startingDirection;
+        this.switchingCollisions = switchingCollisions;
+        this.switched = false;
     }
 }
 
@@ -62,26 +68,22 @@ function initializePlayersAndKarts() {
     tracks = new Array();
 
     //Kart 1:
-    var tempKart = new KartClass(0.25, 1/500, 1/120, 1/8);
+    var tempKart = new KartClass(0.5, 1/1000, 1/120, 1/12);
     karts.push(tempKart);
 
     //Player 1:
     var tempPlayer = new PlayerClass(imagesToLoad[1].image, 0, karts[0]);
-    tempPlayer.x = 330;
-    tempPlayer.y = 230;
-    tempPlayer.currentDirection = 135;
     players.push(tempPlayer);
 
-    //Track 1:
-    var tempTrack = new TrackClass(imagesToLoad[0], createCollisionContext());
+    //Figure 8:
+    var tempTrack = new TrackClass(imagesToLoad[0], "F8", createCollisionContext(), [2352,1467], 90, 1, [6, 16]);
     tracks.push(tempTrack);
-}
+    initCheckpoints();
 
-function createCollisionContext() {
-    var collisionCanvas = document.createElement('canvas');
-    collisionCanvas.width = imagesToLoad[2].image.width;
-    collisionCanvas.height = imagesToLoad[2].image.height;
-    var collisionContext = collisionCanvas.getContext('2d');
-    collisionContext.drawImage(imagesToLoad[2].image, 0, 0);
-    return collisionContext
+    tempPlayer.x = tracks[0].startingPosition[0];
+    tempPlayer.y = tracks[0].startingPosition[1];
+    tempPlayer.currentDirection = tracks[0].startingDirection;
+    //Temp map:
+    //var tempTrack = new TrackClass(imagesToLoad[0], "Temp", createCollisionContext(), [330,230],135, 0, null);
+    //tracks.push(tempTrack);
 }

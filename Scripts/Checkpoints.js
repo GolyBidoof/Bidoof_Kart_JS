@@ -13,43 +13,35 @@ class CheckpointsPointsClass {
     }
 }
 
-var track0Checkpoints = [[[427, 308],[277, 74]],
-[[426, 307],[279, 77]],
-[[606, 239],[445, 18]],
-[[723, 175],[805, 5]],
-[[808, 204],[1035, 43]],
-[[830, 213],[1092, 151]],
-[[797, 219],[1008, 263]],
-[[697, 317],[911, 315]],
-[[776, 418],[992, 382]],
-[[798, 481],[1086, 482]],
-[[788, 508],[1128, 583]],
-[[782, 525],[928, 673]],
-[[711, 530],[718, 670]],
-[[598, 538],[554, 681]],
-[[481, 543],[287, 679]],
-[[364, 526],[159, 608]],
-[[314, 485],[63, 498]],
-[[303, 450],[28, 365]],
-[[311, 387],[123, 258]],
-[[355, 355],[211, 150]]
-];
-
 function initCheckpoints() {
-    var checkpoints = new Array();
+    var checkpointsFullyGenerated = new Array();
     var keyCheckpoints = new Array();
-    for (let i=0; i<track0Checkpoints.length; i++) {
-        var tempCPOI = new CheckpointsPointsClass(track0Checkpoints[i][0][0], track0Checkpoints[i][0][1]);
-        var tempCPOI2 = new CheckpointsPointsClass(track0Checkpoints[i][1][0], track0Checkpoints[i][1][1]);
-        var tempCheckpoint = new CheckpointsClass(tempCPOI, tempCPOI2);
-        if (i%5==1) {
-            tempCheckpoint.key = true; 
-            keyCheckpoints.push(i);
-        }
-        checkpoints.push(tempCheckpoint);
+    var newScript = document.createElement("script");
+    newScript.setAttribute("type", "text/javascript");
+    switch (tracks[0].name) {
+        case "F8":
+            var filename = "Tracks/CheckpointParams/Figure8.js";
+            break;
+        default:
+            var filename = "Tracks/CheckpointParams/SampleTrack.js";
+            break;
     }
-    tracks[0].checkpoints = checkpoints;
-    tracks[0].keyCheckpoints = keyCheckpoints;
+    newScript.setAttribute("src", filename);
+    document.getElementsByTagName("head")[0].appendChild(newScript);
+    newScript.onload = () => {
+        for (let i=0; i<checkpoints.length; i++) {
+            var tempCPOI = new CheckpointsPointsClass(checkpoints[i][0][0], checkpoints[i][0][1]);
+            var tempCPOI2 = new CheckpointsPointsClass(checkpoints[i][1][0], checkpoints[i][1][1]);
+            var tempCheckpoint = new CheckpointsClass(tempCPOI, tempCPOI2);
+            if (i%6==1) {
+                tempCheckpoint.key = true; 
+                keyCheckpoints.push(i);
+            }
+            checkpointsFullyGenerated.push(tempCheckpoint);
+        }
+        tracks[0].checkpoints = checkpointsFullyGenerated;
+        tracks[0].keyCheckpoints = keyCheckpoints;
+    }
 }
 
 function debugDrawCheckpoints() {
@@ -61,7 +53,7 @@ function debugDrawCheckpoints() {
         }
         ctx.fillStyle = '#fff';
         ctx.beginPath();
-        ctx.moveTo(poly[0], poly[1]);
+        ctx.moveTo(poly[0] , poly[1]);
         for(item=2; item < poly.length-1; item+=2){
             ctx.lineTo( poly[item] , poly[item+1] )}
         ctx.closePath();
@@ -80,7 +72,15 @@ function checkIfInsideCheckpoints() {
         }
         var returnVal = pnpoly(4, xCoords, yCoords, players[0].x, players[0].y);
         if (returnVal==true) {
-            if (players[0].currentCheckpoint > i) {
+            console.log(i);
+            if (tracks[0].switchingCollisions.includes(i) && tracks[0].switched==false) {
+                console.log("Switched!");
+                tracks[0].switched = true;
+                tracks[0].currentCollisionContext = 1 - tracks[0].currentCollisionContext;
+            } else if (!tracks[0].switchingCollisions.includes(i) && tracks[0].switched==true) {
+                tracks[0].switched = false;
+            }
+            if (players[0].currentCheckpoint == 0 && players[0].traversedKeyCheckpoints.length>1) {
                 lapCount();
             }
             players[0].currentCheckpoint=i;
