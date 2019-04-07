@@ -22,6 +22,12 @@ function initializeCanvas() {
     ctx.webkitImageSmoothingEnabled = false;
     ctx.msImageSmoothingEnabled = false;
     ctx.imageSmoothingEnabled = false;
+
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0,0,canvas.width, canvas.height);
+    ctx.fillStyle = '40px white';
+    ctx.fillText("Loading...",canvas.width/2-64, canvas.height/2);
+
     imagesToLoad = new Array();
     mainGameProperties = new MainGameProperties();
 
@@ -102,6 +108,7 @@ function drawImages(image, angleInRad, positionX, positionY, offset) {
 }
 
 window.onload = function() {
+    initializeCanvas();
     //var track = prompt("Select Track", "Figure-8");
     //if (track == null || track == "") {
         //txt = "Cancelled";
@@ -120,6 +127,6 @@ window.onload = function() {
             //loadImages(['Tracks/track1.png', 'Characters/399.png', 'Collisions/track1.png'], loadImgsToArray);
         //}
     //}
-    initializeCanvas();
+    
     //loadImages(['Tracks/track1.png', 'Characters/399.png', 'Collisions/track1.png'], loadImgsToArray);
 }

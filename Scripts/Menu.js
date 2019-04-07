@@ -24,7 +24,7 @@ class MenuButton {
 function initMenu() {
     menuButtons = new Array();
     for (let i=0; i<players.length; i++) {
-        var tempClickableArea = new MenuButton(canvas.width/7+140*i, canvas.width/7+140*i+128, canvas.height/2, canvas.height/2+128);
+        var tempClickableArea = new MenuButton(canvas.width/2-140*players.length/2+140*i, canvas.width/2-140*players.length/2+140*i+128, canvas.height/2, canvas.height/2+128);
         menuButtons.push(tempClickableArea);
     }
 
@@ -57,17 +57,15 @@ function drawMenu() {
     ctx.fillRect(0, 0, canvas.width+65535, canvas.height+65535);
     ctx.restore();
 
-    menuText();
-
     for (let i=0; i<players.length; i++) {
         if (i==menuThings.clickedButton && menuThings.currentlyClicked == true) {
-            ctx.drawImage(imagesToLoad[7].image, canvas.width/7+140*i, canvas.height/2, 128, 128);
+            ctx.drawImage(imagesToLoad[7].image, canvas.width/2-140*players.length/2+140*i, canvas.height/2, 128, 128);
         } else if (i==menuThings.selectedId) {
-            ctx.drawImage(imagesToLoad[8].image, canvas.width/7+140*i, canvas.height/2, 128, 128);
+            ctx.drawImage(imagesToLoad[8].image, canvas.width/2-140*players.length/2+140*i, canvas.height/2, 128, 128);
         } else {
-            ctx.drawImage(imagesToLoad[6].image, canvas.width/7+140*i, canvas.height/2, 128, 128);
+            ctx.drawImage(imagesToLoad[6].image, canvas.width/2-140*players.length/2+140*i, canvas.height/2, 128, 128);
         }
-        ctx.drawImage(players[i].image, canvas.width/7+140*i, canvas.height/2, 128, 128);
+        ctx.drawImage(players[i].image, canvas.width/2-140*players.length/2+140*i, canvas.height/2, 128, 128);
     }
     if (menuThings.clickedButton==players.length && menuThings.currentlyClicked == true) {
         ctx.drawImage(imagesToLoad[16].image, canvas.width/2-128, canvas.height-canvas.height/4, 256, 92);
@@ -76,6 +74,8 @@ function drawMenu() {
     } else {
         ctx.drawImage(imagesToLoad[15].image, canvas.width/2-128, canvas.height-canvas.height/4, 256, 92);
     }
+
+    menuText();
     
 }
 

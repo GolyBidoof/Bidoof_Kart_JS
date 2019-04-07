@@ -78,7 +78,7 @@ function movement(timestep) {
     targetAngleSet(timestep);
     if (players[mainGameProperties.currentPlayer].boostFrames>0) {
         players[mainGameProperties.currentPlayer].boostFrames--;
-        players[mainGameProperties.currentPlayer].currentMaxSpeed = players[mainGameProperties.currentPlayer].currentMaxSpeed * 1.5;
+        players[mainGameProperties.currentPlayer].currentMaxSpeed = players[mainGameProperties.currentPlayer].currentMaxSpeed * players[mainGameProperties.currentPlayer].kart.miniTurboBoost;
         if (players[mainGameProperties.currentPlayer].boostFrames==0) {
             var boost = document.getElementById("boost-sfx");
             boost.pause();

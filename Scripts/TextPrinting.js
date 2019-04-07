@@ -25,9 +25,31 @@ function printingTextOnScreen() {
 function menuText() {
     ctx.fillStyle = "white";
     ctx.font = "30px Bungee";
-    ctx.fillText("Select your favorite character!", canvas.width*0.25, canvas.height*0.2);
+    ctx.fillText("Select your favorite character!", canvas.width*0.27, canvas.height*0.2);
     ctx.font = "20px"
-    ctx.fillText("He's quick and nimble", canvas.width*0.32, canvas.height*0.35);
+    switch (menuThings.selectedId) {
+        case 0:
+            ctx.fillText("The leader of the bunch, Bidoof!", canvas.width*0.27, canvas.height*0.35);
+            break;
+        case 1:
+            ctx.fillText("WOBBAWOBBAfett, confirmed epic each time.", canvas.width*0.21, canvas.height*0.35);
+            break;
+        case 2:
+            ctx.fillText("Ludicolo instantly accelerates. He's cool.", canvas.width*0.21, canvas.height*0.35);
+            break;
+        case 3:
+            ctx.fillText("The cutest member of Corpish family!", canvas.width*0.24, canvas.height*0.35);
+            break;
+        case 4:
+            ctx.fillText("Probopass is extremely hard to navigate...", canvas.width*0.21, canvas.height*0.35);
+            break;
+        case 5:
+            ctx.fillText("Stunfisk's stuck on a different planet.", canvas.width*0.24, canvas.height*0.35);
+            break;
+    }
+    
+
+    ctx.fillText("OK", canvas.width/2-20, canvas.height-canvas.height/4+54);
 }
 
 function countdownClock() {
