@@ -1,3 +1,9 @@
+var collisionEnum = {
+    ROAD: 0,
+    GRASS: 1,
+    WALL: 2
+}
+
 function collision() {
     var pixelData = tracks[0].collisionContext[tracks[0].currentCollisionContext].getImageData(Math.round(players[0].x), Math.round(players[0].y), 1, 1).data;
     if (pixelData[1] > 200) {

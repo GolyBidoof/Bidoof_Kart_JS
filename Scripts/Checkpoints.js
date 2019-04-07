@@ -13,11 +13,7 @@ class CheckpointsPointsClass {
     }
 }
 
-function initCheckpoints() {
-    var checkpointsFullyGenerated = new Array();
-    var keyCheckpoints = new Array();
-    var newScript = document.createElement("script");
-    newScript.setAttribute("type", "text/javascript");
+function hotSwapATrackToGetCheckpoints() {
     switch (tracks[0].name) {
         case "F8":
             var filename = "Tracks/CheckpointParams/Figure8.js";
@@ -26,8 +22,18 @@ function initCheckpoints() {
             var filename = "Tracks/CheckpointParams/SampleTrack.js";
             break;
     }
+    return filename;
+}
+
+function initCheckpoints() {
+    var checkpointsFullyGenerated = new Array();
+    var keyCheckpoints = new Array();
+    var newScript = document.createElement("script");
+    newScript.setAttribute("type", "text/javascript");
+    var filename = hotSwapATrackToGetCheckpoints();
     newScript.setAttribute("src", filename);
     document.getElementsByTagName("head")[0].appendChild(newScript);
+    
     newScript.onload = () => {
         for (let i=0; i<checkpoints.length; i++) {
             var tempCPOI = new CheckpointsPointsClass(checkpoints[i][0][0], checkpoints[i][0][1]);
