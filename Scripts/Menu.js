@@ -38,14 +38,25 @@ function initMenu() {
 
 function drawMenu() {
     var menu = document.getElementById("menu-theme");
-    menu.play();
+    var playPromise = menu.play();
     menu.loop = true;
-    menu.volume = 0.5;
+
+    if (playPromise !== undefined) {
+        playPromise.then(_ => {
+        })
+        .catch(error => {
+        });
+    }
+
     if (menu.paused) {
+        ctx.fillStyle = "white";
+        ctx.font = "30px Bungee";
+        ctx.fillText("Click to play! Warning, the game has audio!", canvas.width/5, canvas.height/2)
         return;
     } else {
         menuThings.music = menu;
-    }
+        menu.volume = 0.5;
+    } 
     //ctx.drawImage(imagesToLoad[7].image, canvas.width/2, canvas.height/2, 64, 64);
     //ctx.drawImage(imagesToLoad[8].image, canvas.width/2, canvas.height/2, 64, 64);
     menuThings.menuFrame += 0.5;

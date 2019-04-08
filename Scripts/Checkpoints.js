@@ -78,11 +78,16 @@ function checkIfInsideCheckpoints() {
         }
         var returnVal = pnpoly(4, xCoords, yCoords, players[mainGameProperties.currentPlayer].x, players[mainGameProperties.currentPlayer].y);
         if (returnVal==true) {
-            if (tracks[0].switchingCollisions.includes(i) && tracks[0].switched==false) {
+            /*if (tracks[0].switchingCollisions.includes(i) && tracks[0].switched==false) {
                 tracks[0].switched = true;
                 tracks[0].currentCollisionContext = 1 - tracks[0].currentCollisionContext;
             } else if (!tracks[0].switchingCollisions.includes(i) && tracks[0].switched==true) {
                 tracks[0].switched = false;
+            }*/
+            if (tracks[0].switchingCollisions[1] <= players[mainGameProperties.currentPlayer].traversedKeyCheckpoints[players[mainGameProperties.currentPlayer].traversedKeyCheckpoints.length-1]) {
+                tracks[0].currentCollisionContext = 1;
+            } else if (tracks[0].switchingCollisions[0] <= players[mainGameProperties.currentPlayer].traversedKeyCheckpoints[players[mainGameProperties.currentPlayer].traversedKeyCheckpoints.length-1]) {
+                tracks[0].currentCollisionContext = 0;
             }
             if (players[mainGameProperties.currentPlayer].currentCheckpoint == 0 && players[mainGameProperties.currentPlayer].traversedKeyCheckpoints.length>1) {
                 lapCount();

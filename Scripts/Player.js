@@ -11,7 +11,7 @@ class PlayerClass {
         this.currentBoost = 0;
         this.keyPress = 0;
         this.kart = kart;
-        this.name = "";
+        this.name = name;
         this.currentMaxSpeed = kart.maxSpeed;
         this.currentCheckpoint = 0;
         this.traversedKeyCheckpoints = [];
@@ -27,12 +27,12 @@ function initializePlayersAndKarts() {
     tracks = new Array();
 
     //Kart 1:
-    var bidoofKart = new KartClass(0.4, 1/1000, 1/120, 1/12, 90, 1.5);
+    var bidoofKart = new KartClass(0.41, 1/1000, 1/120, 1/12, 90, 1.5);
     var wobbuffetKart = new KartClass(0.45, 1/2000, 1/120, 1/20, 80, 1.2);
-    var ludicoloKart = new KartClass(0.34, 1/50, 1/20, 1/8, 60, 2.0);
-    var corpishKart = new KartClass(0.36, 1/100, 1/20, 1/10, 100, 1.6);
-    var probopassKart = new KartClass(0.5, 1/3000, 1/120, 1/30, 120, 1.8);
-    var stunfiskKart = new KartClass(0.32, 1/8, 1/2000, 1/5, 150, 1.4);
+    var ludicoloKart = new KartClass(0.34, 1/300, 1/200, 1/20, 60, 2.0);
+    var corpishKart = new KartClass(0.36, 1/700, 1/200, 1/20, 100, 1.6);
+    var probopassKart = new KartClass(0.58, 1/5000, 1/120, 1/30, 120, 1.9);
+    var stunfiskKart = new KartClass(0.33, 1/450, 1/2000, 1/22, 180, 1.4);
     karts.push(bidoofKart);
     karts.push(wobbuffetKart);
     karts.push(ludicoloKart);
@@ -51,7 +51,7 @@ function initializePlayersAndKarts() {
     players[2].name = "ludicolo";
     players[3].name = "corphish";
     players[4].name = "probopass";
-    players[5].name = "stunfisk;"
+    players[5].name = "stunfisk";
 
     //Figure 8:
     var tempTrack = new TrackClass(imagesToLoad[0], "F8", createCollisionContext(), [2352,1467], 90, 1, [6, 16]);

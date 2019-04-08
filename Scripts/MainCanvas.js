@@ -49,6 +49,7 @@ function loadImages(images, callback) {
         promises.push(new Promise(resolve => {
             let imgObj = new Image();
             imgObj.onload = () => resolve(imgObj);
+            imgObj.setAttribute('crossOrigin', 'anonymous');
             imgObj.src = img;
         }));
     });
@@ -72,7 +73,11 @@ function setStartingLocations() {
 
 function drawEverything() {
     //drawing background
-    ctx.fillStyle = "rgba(34, 177, 76, 1)";
+    
+    //debug map
+    //ctx.fillStyle = "rgba(34, 177, 76, 1)";
+    
+    ctx.fillStyle = "rgba(8, 152, 0, 1)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     //drawing background

@@ -15,8 +15,7 @@ function collision() {
         var gettingHit = document.getElementById("getting-hit");
         if (gettingHit.paused) {
             gettingHit.play();
-        }else{
-            gettingHit.pause();
+        } else {
             gettingHit.currentTime = 0
         }
         players[mainGameProperties.currentPlayer].currentMaxSpeed = players[mainGameProperties.currentPlayer].currentSpeed * -0.5;
@@ -36,7 +35,7 @@ function createCollisionContext() {
         collisionCanvas.height = imagesToLoad[2].image.height;
         var collisionContext = collisionCanvas.getContext('2d');
         collisionContext.drawImage(imagesToLoad[2].image, 0, 0)
-        collisionContext.getImageData(Math.round(players[mainGameProperties.currentPlayer].x), Math.round(players[mainGameProperties.currentPlayer].y), 1, 1).data;;
+        collisionContext.getImageData(Math.round(players[mainGameProperties.currentPlayer].x), Math.round(players[mainGameProperties.currentPlayer].y), 1, 1).data;
         contexts.push(collisionContext);
     } if (imagesToLoad.length>=4) {
         collisionCanvas = document.createElement('canvas');
@@ -44,7 +43,7 @@ function createCollisionContext() {
         collisionCanvas.height = imagesToLoad[3].image.height;
         var collisionContext2 = collisionCanvas.getContext('2d');
         collisionContext2.drawImage(imagesToLoad[3].image, 0, 0);
-        collisionContext2.getImageData(Math.round(players[mainGameProperties.currentPlayer].x), Math.round(players[mainGameProperties.currentPlayer].y), 1, 1).data;;
+        collisionContext2.getImageData(Math.round(players[mainGameProperties.currentPlayer].x), Math.round(players[mainGameProperties.currentPlayer].y), 1, 1).data;
         contexts.push(collisionContext2);
     }
     return contexts;

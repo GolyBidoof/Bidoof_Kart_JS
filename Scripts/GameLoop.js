@@ -8,7 +8,7 @@ class MainGameProperties {
         this.currentLap = 1;
         this.currentBestLapTime = 59999;
         this.newLapTextFrame = 0;
-        this.countdownClock = 351;
+        this.countdownClock = 321;
         this.goClock = 100;
         this.initiated = false;
         this.previousLapTime = 0;
@@ -36,7 +36,7 @@ function gameLoop(timestamp) {
         }
         if (mainGameProperties.currentScreen==0) drawMenu();
         else if (mainGameProperties.currentScreen==1) {
-            ctx.fillStyle = 'black';
+            ctx.fillStyle = 'rgba(0,0,0,0.1)';
             ctx.fillRect(0,0,canvas.width, canvas.height);
             var sfx = document.getElementById("go-to-race");
                 sfx.volume = 0.5;
